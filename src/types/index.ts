@@ -1,5 +1,5 @@
 export interface Doctor {
-  id: string;
+  id?: string;
   name: string;
   specialization: string;
   experience: number;
@@ -13,7 +13,7 @@ export interface Doctor {
   consultationFee: number;
   rating: number;
   totalPatients: number;
-  status: 'active' | 'inactive';
+  status: "active" | "inactive";
 }
 
 export interface Patient {
@@ -22,7 +22,7 @@ export interface Patient {
   email: string;
   phone: string;
   age: number;
-  gender: 'male' | 'female' | 'other';
+  gender: "male" | "female" | "other";
   bloodGroup: string;
   address: string;
   emergencyContact: {
@@ -51,7 +51,7 @@ export interface Test {
   description: string;
   price: number;
   preparation: string;
-  status: 'pending' | 'completed' | 'cancelled';
+  status: "pending" | "completed" | "cancelled";
   result?: string;
   prescribedBy: string;
   prescribedAt: string;
@@ -76,7 +76,7 @@ export interface Appointment {
   doctorName: string;
   date: string;
   time: string;
-  status: 'scheduled' | 'confirmed' | 'completed' | 'cancelled';
+  status: "scheduled" | "confirmed" | "completed" | "cancelled";
   symptoms: string;
   diagnosis?: string;
   prescription?: Prescription;
@@ -86,7 +86,7 @@ export interface Appointment {
 export interface BillingItem {
   id: string;
   name: string;
-  type: 'consultation' | 'medicine' | 'test' | 'procedure';
+  type: "consultation" | "medicine" | "test" | "procedure";
   quantity: number;
   unitPrice: number;
   totalPrice: number;
@@ -100,7 +100,7 @@ export interface Billing {
   items: BillingItem[];
   totalAmount: number;
   paidAmount: number;
-  status: 'pending' | 'paid' | 'partial';
+  status: "pending" | "paid" | "partial";
   createdAt: string;
   paidAt?: string;
 }
@@ -109,7 +109,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'admin' | 'doctor' | 'patient' | 'lab_technician';
+  role: "admin" | "doctor" | "patient" | "lab_technician";
   avatar?: string;
 }
 
@@ -127,4 +127,4 @@ export interface HospitalStats {
   totalRevenue: number;
   pendingAppointments: number;
   completedAppointments: number;
-} 
+}

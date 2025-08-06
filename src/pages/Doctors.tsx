@@ -33,7 +33,7 @@ const Doctors = () => {
   const [showAddDoctorModal, setShowAddDoctorModal] = useState(false);
 
   useEffect(() => {
-    console.log("Doctors: useEffect"); // Debug log
+    console.log("Doctors: useEffect", fetchDoctors()); // Debug log
     dispatch(fetchDoctors());
   }, [dispatch]);
 

@@ -1,12 +1,12 @@
-import { ReactNode } from 'react';
-import { useAppSelector } from '../hooks/redux';
+import { ReactNode } from "react";
+import { useAppSelector } from "../hooks/redux";
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isAuthenticated } = useAppSelector(state => state.auth);
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   if (!isAuthenticated) {
     return (
@@ -22,4 +22,4 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   return <>{children}</>;
 };
 
-export default ProtectedRoute; 
+export default ProtectedRoute;

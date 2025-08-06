@@ -6,10 +6,7 @@ import { useTheme } from "../../contexts/ThemeContext";
 import {
   LayoutDashboard,
   Users,
-  UserCheck,
-  Calendar,
   FileText,
-  CreditCard,
   TestTube,
   Settings,
   LogOut,
