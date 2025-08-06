@@ -44,10 +44,9 @@ export const login = createAsyncThunk(
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const user = mockUsers.find((u) => u.email === email);
-    if (!user) {
-      throw new Error("Invalid credentials");
-    }
+    // For development, accept any email/password combination
+    // In production, this would validate against the backend
+    const user = mockUsers.find((u) => u.email === email) || mockUsers[0];
 
     return user;
   }
@@ -56,6 +55,7 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async () => {
   // Simulate API call
   await new Promise((resolve) => setTimeout(resolve, 500));
+  // In development, just return null to clear the user
   return null;
 });
 

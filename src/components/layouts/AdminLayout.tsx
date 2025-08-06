@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { logout } from "../../store/slices/authSlice";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -27,6 +27,7 @@ const AdminLayout = () => {
   const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -41,6 +42,7 @@ const AdminLayout = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/login");
   };
 
   return (
@@ -96,15 +98,24 @@ const AdminLayout = () => {
             Quick Actions
           </h3>
           <div className="mt-2 space-y-1">
-            <button className="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-800 hover:text-gray-900 dark:hover:text-white rounded-md transition-colors duration-200">
+            <button
+              onClick={() => navigate("/doctors")}
+              className="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-800 hover:text-gray-900 dark:hover:text-white rounded-md transition-colors duration-200"
+            >
               <UserCheck className="mr-3 h-5 w-5" />
               Add Doctor
             </button>
-            <button className="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-800 hover:text-gray-900 dark:hover:text-white rounded-md transition-colors duration-200">
+            <button
+              onClick={() => navigate("/patients")}
+              className="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-800 hover:text-gray-900 dark:hover:text-white rounded-md transition-colors duration-200"
+            >
               <Users className="mr-3 h-5 w-5" />
               Add Patient
             </button>
-            <button className="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-800 hover:text-gray-900 dark:hover:text-white rounded-md transition-colors duration-200">
+            <button
+              onClick={() => navigate("/appointments")}
+              className="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-800 hover:text-gray-900 dark:hover:text-white rounded-md transition-colors duration-200"
+            >
               <Calendar className="mr-3 h-5 w-5" />
               New Appointment
             </button>

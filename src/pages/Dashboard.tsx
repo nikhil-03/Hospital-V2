@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 
 const Dashboard = () => {
+  console.log("Dashboard: Rendering"); // Debug log
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const { doctors } = useAppSelector((state) => state.doctors);
@@ -24,6 +25,7 @@ const Dashboard = () => {
   const { billing } = useAppSelector((state) => state.billing);
 
   useEffect(() => {
+    console.log("Dashboard: useEffect"); // Debug log
     dispatch(fetchDoctors());
     dispatch(fetchPatients());
     dispatch(fetchAppointments());

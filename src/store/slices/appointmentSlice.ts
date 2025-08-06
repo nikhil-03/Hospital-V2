@@ -66,16 +66,34 @@ export const fetchAppointments = createAsyncThunk(
   }
 );
 
+interface CreateAppointmentRequest {
+  date: string;
+  time: string;
+  description: string;
+  doctorId: string;
+  patientId: string;
+}
+
 export const createAppointment = createAsyncThunk(
   'appointments/createAppointment',
-  async (appointment: Omit<Appointment, 'id' | 'createdAt'>) => {
+  async (appointmentData: CreateAppointmentRequest) => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Convert API data to Appointment interface
     const newAppointment: Appointment = {
-      ...appointment,
       id: Date.now().toString(),
+      patientId: appointmentData.patientId,
+      doctorId: appointmentData.doctorId,
+      patientName: "Patient Name", // This would come from patient lookup
+      doctorName: "Doctor Name", // This would come from doctor lookup
+      date: appointmentData.date,
+      time: appointmentData.time,
+      status: "scheduled",
+      symptoms: appointmentData.description,
       createdAt: new Date().toISOString(),
     };
+    
     return newAppointment;
   }
 );

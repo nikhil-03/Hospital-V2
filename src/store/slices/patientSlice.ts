@@ -83,16 +83,45 @@ export const fetchPatients = createAsyncThunk(
   }
 );
 
+interface AddPatientRequest {
+  name: string;
+  email: string;
+  age: number;
+  mobileNo: string;
+  adharNo: string;
+  gender: "Male" | "Female" | "Other";
+  bloodGroup: string;
+  pinCode: number;
+  description: string;
+  address: string;
+}
+
 export const addPatient = createAsyncThunk(
   "patients/addPatient",
-  async (patient: Omit<Patient, "id" | "createdAt">) => {
+  async (patientData: AddPatientRequest) => {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 500));
+    
+    // Convert API data to Patient interface
     const newPatient: Patient = {
-      ...patient,
       id: Date.now().toString(),
+      name: patientData.name,
+      email: patientData.email,
+      phone: patientData.mobileNo,
+      age: patientData.age,
+      gender: patientData.gender.toLowerCase() as "male" | "female" | "other",
+      bloodGroup: patientData.bloodGroup,
+      address: patientData.address,
+      emergencyContact: {
+        name: "Emergency Contact",
+        phone: patientData.mobileNo,
+        relationship: "Emergency",
+      },
+      medicalHistory: [],
+      allergies: [],
       createdAt: new Date().toISOString(),
     };
+    
     return newPatient;
   }
 );

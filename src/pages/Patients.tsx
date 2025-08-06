@@ -1,19 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import {
-  fetchPatients,
-  setSelectedPatient,
-} from "../store/slices/patientSlice";
-import {
-  Search,
-  Filter,
-  Plus,
-  Phone,
-  Mail,
-  MapPin,
-  Calendar,
-  User,
-} from "lucide-react";
+import { fetchPatients } from "../store/slices/patientSlice";
+import AddPatientModal from "../components/AddPatientModal";
+import { Search, Filter, Plus, Phone, Mail, MapPin, User } from "lucide-react";
 import type { Patient } from "../types";
 
 const Patients = () => {
@@ -23,6 +12,7 @@ const Patients = () => {
   const [selectedGender, setSelectedGender] = useState("");
   const [showPatientModal, setShowPatientModal] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [showAddPatientModal, setShowAddPatientModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchPatients());
@@ -51,7 +41,10 @@ const Patients = () => {
             Manage patient information and records
           </p>
         </div>
-        <button className="btn-primary flex items-center space-x-2">
+        <button
+          onClick={() => setShowAddPatientModal(true)}
+          className="btn-primary flex items-center space-x-2"
+        >
           <Plus className="h-5 w-5" />
           <span>Add Patient</span>
         </button>
@@ -312,6 +305,12 @@ const Patients = () => {
           </div>
         </div>
       )}
+
+      {/* Add Patient Modal */}
+      <AddPatientModal
+        isOpen={showAddPatientModal}
+        onClose={() => setShowAddPatientModal(false)}
+      />
     </div>
   );
 };

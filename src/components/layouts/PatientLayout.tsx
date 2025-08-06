@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { logout } from "../../store/slices/authSlice";
 import { useTheme } from "../../contexts/ThemeContext";
 import {
   LayoutDashboard,
+  Users,
+  UserCheck,
   Calendar,
   FileText,
-  User,
-  Heart,
-  Clock,
+  CreditCard,
+  TestTube,
   Settings,
   LogOut,
   Menu,
@@ -18,8 +19,6 @@ import {
   Moon,
   Bell,
   Search,
-  Plus,
-  Stethoscope,
 } from "lucide-react";
 
 const PatientLayout = () => {
@@ -28,20 +27,21 @@ const PatientLayout = () => {
   const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Book Appointment", href: "/book-appointment", icon: Calendar },
-    { name: "My Appointments", href: "/appointments", icon: Clock },
-    { name: "Medical Records", href: "/medical-records", icon: FileText },
-    { name: "Find Doctors", href: "/doctors", icon: Stethoscope },
-    { name: "Prescriptions", href: "/prescriptions", icon: Heart },
-    { name: "Profile", href: "/profile", icon: User },
+    { name: "Find Doctors", href: "/doctors", icon: UserCheck },
+    { name: "My Appointments", href: "/appointments", icon: Calendar },
+    { name: "Prescriptions", href: "/prescriptions", icon: FileText },
+    { name: "Billing", href: "/billing", icon: CreditCard },
+    { name: "Tests", href: "/tests", icon: TestTube },
     { name: "Settings", href: "/settings", icon: Settings },
   ];
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/login");
   };
 
   return (
@@ -55,10 +55,10 @@ const PatientLayout = () => {
         <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200 dark:border-dark-800">
           <div className="flex items-center">
             <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-              <Heart className="h-5 w-5 text-white" />
+              <span className="text-white font-bold text-sm">H</span>
             </div>
             <span className="ml-3 text-xl font-bold text-gray-900 dark:text-white">
-              Patient Portal
+              Hospital - Patient
             </span>
           </div>
           <button
@@ -90,52 +90,6 @@ const PatientLayout = () => {
             })}
           </div>
         </nav>
-
-        {/* Quick Actions */}
-        <div className="mt-8 px-3">
-          <h3 className="px-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-            Quick Actions
-          </h3>
-          <div className="mt-2 space-y-1">
-            <button className="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-800 hover:text-gray-900 dark:hover:text-white rounded-md transition-colors duration-200">
-              <Plus className="mr-3 h-5 w-5" />
-              Book Appointment
-            </button>
-            <button className="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-800 hover:text-gray-900 dark:hover:text-white rounded-md transition-colors duration-200">
-              <FileText className="mr-3 h-5 w-5" />
-              View Records
-            </button>
-            <button className="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-800 hover:text-gray-900 dark:hover:text-white rounded-md transition-colors duration-200">
-              <Stethoscope className="mr-3 h-5 w-5" />
-              Find Doctor
-            </button>
-          </div>
-        </div>
-
-        {/* Patient Stats */}
-        <div className="mt-8 px-3">
-          <h3 className="px-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-            My Health
-          </h3>
-          <div className="mt-2 space-y-2">
-            <div className="px-3 py-2 bg-blue-50 dark:bg-primary-900/20 rounded-md">
-              <div className="text-sm font-medium text-blue-800 dark:text-primary-400">
-                2
-              </div>
-              <div className="text-xs text-blue-600 dark:text-primary-500">
-                Upcoming Appointments
-              </div>
-            </div>
-            <div className="px-3 py-2 bg-green-50 dark:bg-success-900/20 rounded-md">
-              <div className="text-sm font-medium text-green-800 dark:text-success-400">
-                5
-              </div>
-              <div className="text-xs text-green-600 dark:text-success-500">
-                Active Prescriptions
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Main content */}
@@ -157,7 +111,7 @@ const PatientLayout = () => {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Search doctors, services..."
+                    placeholder="Search..."
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
                 </div>
