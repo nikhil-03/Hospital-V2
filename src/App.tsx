@@ -17,6 +17,9 @@ import Appointments from "./pages/Appointments";
 import Prescriptions from "./pages/Prescriptions";
 import Billing from "./pages/Billing";
 import Tests from "./pages/Tests";
+import DoctorDashboard from "./pages/DoctorDashboard";
+import PatientDashboard from "./pages/PatientDashboard";
+import RoleSwitcher from "./components/RoleSwitcher";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -41,12 +44,19 @@ function App() {
           <div className="fixed top-0 left-0 z-50 bg-yellow-500 text-black px-4 py-1 text-xs font-medium">
             🚀 Development Mode - No Auth Required
           </div>
+          <RoleSwitcher />
 
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<RoleBasedLayout />}>
               <Route index element={<Dashboard />} />
+            </Route>
+            <Route path="/doctor-dashboard" element={<RoleBasedLayout />}>
+              <Route index element={<DoctorDashboard />} />
+            </Route>
+            <Route path="/patient-dashboard" element={<RoleBasedLayout />}>
+              <Route index element={<PatientDashboard />} />
             </Route>
             <Route path="/doctors" element={<RoleBasedLayout />}>
               <Route index element={<Doctors />} />

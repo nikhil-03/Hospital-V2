@@ -1,64 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Patient } from "../../types";
-
-// Mock patients data
-const mockPatients: Patient[] = [
-  {
-    id: "1",
-    name: "John Doe",
-    email: "john.doe@email.com",
-    phone: "+1-555-0123",
-    age: 35,
-    gender: "male",
-    bloodGroup: "O+",
-    address: "123 Main St, City, State 12345",
-    emergencyContact: {
-      name: "Jane Doe",
-      phone: "+1-555-0124",
-      relationship: "Spouse",
-    },
-    medicalHistory: ["Hypertension", "Diabetes"],
-    allergies: ["Penicillin"],
-    createdAt: "2023-01-15T10:00:00Z",
-  },
-  {
-    id: "2",
-    name: "Jane Smith",
-    email: "jane.smith@email.com",
-    phone: "+1-555-0125",
-    age: 28,
-    gender: "female",
-    bloodGroup: "A+",
-    address: "456 Oak Ave, City, State 12345",
-    emergencyContact: {
-      name: "Bob Smith",
-      phone: "+1-555-0126",
-      relationship: "Father",
-    },
-    medicalHistory: ["Asthma"],
-    allergies: ["Dust", "Pollen"],
-    createdAt: "2023-02-20T14:30:00Z",
-  },
-  {
-    id: "3",
-    name: "Mike Johnson",
-    email: "mike.johnson@email.com",
-    phone: "+1-555-0127",
-    age: 42,
-    gender: "male",
-    bloodGroup: "B+",
-    address: "789 Pine Rd, City, State 12345",
-    emergencyContact: {
-      name: "Sarah Johnson",
-      phone: "+1-555-0128",
-      relationship: "Sister",
-    },
-    medicalHistory: ["Heart Disease"],
-    allergies: ["Shellfish"],
-    createdAt: "2023-03-10T09:15:00Z",
-  },
-];
+import axios from "axios";
+import { getApis } from "../../api";
 
 interface PatientState {
   patients: Patient[];
@@ -74,55 +18,31 @@ const initialState: PatientState = {
   selectedPatient: null,
 };
 
+// Async thunk to fetch all patients from the API
 export const fetchPatients = createAsyncThunk(
   "patients/fetchPatients",
-  async () => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return mockPatients;
+  async (_, { dispatch }) => {
+    try {
+      const response = await axios.get(getApis().PATIENTS);
+      return response.data;
+    } catch (error) {
+      dispatch(clearError());
+      throw error;
+    }
   }
 );
 
-interface AddPatientRequest {
-  name: string;
-  email: string;
-  age: number;
-  mobileNo: string;
-  adharNo: string;
-  gender: "Male" | "Female" | "Other";
-  bloodGroup: string;
-  pinCode: number;
-  description: string;
-  address: string;
-}
-
+// Async thunk to add a new patient
 export const addPatient = createAsyncThunk(
   "patients/addPatient",
-  async (patientData: AddPatientRequest) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    
-    // Convert API data to Patient interface
-    const newPatient: Patient = {
-      id: Date.now().toString(),
-      name: patientData.name,
-      email: patientData.email,
-      phone: patientData.mobileNo,
-      age: patientData.age,
-      gender: patientData.gender.toLowerCase() as "male" | "female" | "other",
-      bloodGroup: patientData.bloodGroup,
-      address: patientData.address,
-      emergencyContact: {
-        name: "Emergency Contact",
-        phone: patientData.mobileNo,
-        relationship: "Emergency",
-      },
-      medicalHistory: [],
-      allergies: [],
-      createdAt: new Date().toISOString(),
-    };
-    
-    return newPatient;
+  async (patientData: Omit<Patient, "id" | "createdAt">, { dispatch }) => {
+    try {
+      const response = await axios.post(getApis().PATIENTS, patientData);
+      return response.data;
+    } catch (error) {
+      dispatch(clearError());
+      throw error;
+    }
   }
 );
 
@@ -154,12 +74,21 @@ const patientSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to fetch patients";
       })
+      .addCase(addPatient.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(
         addPatient.fulfilled,
         (state, action: PayloadAction<Patient>) => {
           state.patients.push(action.payload);
+          state.loading = false;
         }
-      );
+      )
+      .addCase(addPatient.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to add patient";
+      });
   },
 });
 

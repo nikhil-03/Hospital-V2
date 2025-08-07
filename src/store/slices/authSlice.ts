@@ -38,6 +38,16 @@ const mockUsers: User[] = [
   },
 ];
 
+// For development, allow switching between roles
+export const switchRole = createAsyncThunk(
+  "auth/switchRole",
+  async (role: "admin" | "doctor" | "patient" | "lab_technician") => {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    const user = mockUsers.find((u) => u.role === role) || mockUsers[0];
+    return user;
+  }
+);
+
 export const login = createAsyncThunk(
   "auth/login",
   async ({ email }: { email: string; password: string }) => {
@@ -88,6 +98,10 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Login failed";
+      })
+      .addCase(switchRole.fulfilled, (state, action: PayloadAction<User>) => {
+        state.user = action.payload;
+        state.isAuthenticated = true;
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;

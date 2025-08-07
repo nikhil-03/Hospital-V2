@@ -30,7 +30,11 @@ const DoctorLayout = () => {
   const navigate = useNavigate();
 
   const navigation = [
-    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    {
+      name: "My Appointments",
+      href: "/doctor-dashboard",
+      icon: LayoutDashboard,
+    },
     { name: "Patients", href: "/patients", icon: Users },
     { name: "Appointments", href: "/appointments", icon: Calendar },
     { name: "Prescriptions", href: "/prescriptions", icon: FileText },
