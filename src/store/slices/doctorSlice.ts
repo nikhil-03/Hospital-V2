@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Doctor } from "../../types";
-import { getApis } from "../../api";
+import { getApisEndPoint } from "../../apiConfig";
 
 interface DoctorState {
   doctors: Doctor[];
@@ -21,7 +21,7 @@ export const fetchDoctors = createAsyncThunk(
   "doctors/fetchDoctors",
   async (_, thunkAPI) => {
     try {
-      const res = await fetch(getApis().DOCTORS);
+      const res = await fetch(getApisEndPoint().DOCTORS);
 
       if (!res.ok) {
         throw new Error("Failed to fetch doctors");
@@ -67,7 +67,7 @@ export const addDoctor = createAsyncThunk(
     };
 
     try {
-      const response = await fetch(getApis().DOCTORS, {
+      const response = await fetch(getApisEndPoint().DOCTORS, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

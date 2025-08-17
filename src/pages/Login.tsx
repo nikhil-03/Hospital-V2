@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAppDispatch } from "../hooks/redux";
 import { login } from "../store/slices/authSlice";
 import { useTheme } from "../contexts/ThemeContext";
@@ -235,6 +235,19 @@ const Login = () => {
                 </>
               )}
             </button>
+          </div>
+
+          {/* Signup Link */}
+          <div className="text-center mt-4">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Don't have an account?{" "}
+              <Link
+                to="/signup"
+                className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium"
+              >
+                Sign up here
+              </Link>
+            </p>
           </div>
         </div>
 

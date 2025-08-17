@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Patient } from "../../types";
 import axios from "axios";
-import { getApis } from "../../api";
+import { getApisEndPoint } from "../../apiConfig";
 
 interface PatientState {
   patients: Patient[];
@@ -23,7 +23,7 @@ export const fetchPatients = createAsyncThunk(
   "patients/fetchPatients",
   async (_, { dispatch }) => {
     try {
-      const response = await axios.get(getApis().PATIENTS);
+      const response = await axios.get(getApisEndPoint().PATIENTS);
       return response.data;
     } catch (error) {
       dispatch(clearError());
@@ -37,7 +37,10 @@ export const addPatient = createAsyncThunk(
   "patients/addPatient",
   async (patientData: Omit<Patient, "id" | "createdAt">, { dispatch }) => {
     try {
-      const response = await axios.post(getApis().PATIENTS, patientData);
+      const response = await axios.post(
+        getApisEndPoint().PATIENTS,
+        patientData
+      );
       return response.data;
     } catch (error) {
       dispatch(clearError());

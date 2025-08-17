@@ -19,6 +19,7 @@ import {
   Moon,
   Bell,
   Search,
+  Shield,
 } from "lucide-react";
 
 const AdminLayout = () => {
@@ -37,6 +38,7 @@ const AdminLayout = () => {
     { name: "Prescriptions", href: "/prescriptions", icon: FileText },
     { name: "Billing", href: "/billing", icon: CreditCard },
     { name: "Tests", href: "/tests", icon: TestTube },
+    { name: "Access Control", href: "/admin-access", icon: Shield },
     { name: "Settings", href: "/settings", icon: Settings },
   ];
 

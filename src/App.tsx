@@ -19,6 +19,8 @@ import Billing from "./pages/Billing";
 import Tests from "./pages/Tests";
 import DoctorDashboard from "./pages/DoctorDashboard";
 import PatientDashboard from "./pages/PatientDashboard";
+import Signup from "./pages/Signup";
+import AdminAccessControl from "./pages/AdminAccessControl";
 import RoleSwitcher from "./components/RoleSwitcher";
 
 function App() {
@@ -49,6 +51,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<RoleBasedLayout />}>
               <Route index element={<Dashboard />} />
             </Route>
@@ -75,6 +78,9 @@ function App() {
             </Route>
             <Route path="/tests" element={<RoleBasedLayout />}>
               <Route index element={<Tests />} />
+            </Route>
+            <Route path="/admin-access" element={<RoleBasedLayout />}>
+              <Route index element={<AdminAccessControl />} />
             </Route>
           </Routes>
         </div>
